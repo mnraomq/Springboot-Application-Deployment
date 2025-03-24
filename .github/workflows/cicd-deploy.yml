@@ -33,7 +33,16 @@ jobs:
           mvn versions:set -DnewVersion=${{ env.VERSION }}
           mvn versions:commit
 
+      - name: Commit Updated pom.xml
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add pom.xml
+          git commit -m "Update pom.xml version to ${{ env.VERSION }}"
+          git push origin main
+
       - name: Verify Updated Version
         run: cat pom.xml | grep "<version>"
+
 
 
