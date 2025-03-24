@@ -1,4 +1,4 @@
-name: Build and Deploy Spring Boot App
+name: Build and Deploy Spring Boot Application
 
 on:
   push:
@@ -27,5 +27,8 @@ jobs:
       - name: Generate Semantic Version
         id: versioning
         run: echo "VERSION=$(git describe --tags --always --match 'v*' || echo 'v0.1.0')" >> $GITHUB_ENV
+
+      - name: Update Version in pom.xml (Maven)
+        run: mvn versions:set -DnewVersion=${{ env.VERSION }}
 
 
