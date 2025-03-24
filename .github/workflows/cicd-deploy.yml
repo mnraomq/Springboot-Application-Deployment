@@ -29,6 +29,8 @@ jobs:
         run: echo "VERSION=$(git describe --tags --always --match 'v*' || echo 'v0.1.0')" >> $GITHUB_ENV
 
       - name: Update Version in pom.xml (Maven)
-        run: mvn versions:set -DnewVersion=${{ env.VERSION }}
+        run: |
+          mvn versions:set -DnewVersion=${{ env.VERSION }}
+          mvn versions:commit
 
 
