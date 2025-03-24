@@ -19,5 +19,3 @@ Steps for SSH key generation & add to github:
 
 
 6.Test ssh connection using "ssh -T git@github.com" and clone repo if test succeed "git clone <SSH-URL>"
-
-
