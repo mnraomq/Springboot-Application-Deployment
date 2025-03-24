@@ -43,9 +43,13 @@ jobs:
           git commit -m "Update pom.xml version to ${{ env.VERSION }}"
           git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
 
-
       - name: Verify Updated Version
         run: cat pom.xml | grep "<version>"
 
+      - name: Build the Application
+        run: mvn clean package -DskipTests
+
+      - name: Run Unit Tests
+        run: mvn test
 
 
