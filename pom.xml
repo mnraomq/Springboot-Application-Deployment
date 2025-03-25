@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.springbootapp</groupId>
 	<artifactId>Springboot-Application</artifactId>
-	<version>981e372</version>
+	<version>f5b229d</version>
 	<name>Springboot-Application</name>
 	<description>Spring Boot application for CI/CD pipeline and deployment</description>
 	<url/>
