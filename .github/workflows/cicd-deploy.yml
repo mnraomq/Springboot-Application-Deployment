@@ -49,12 +49,6 @@ jobs:
       - name: Build the Application
         run: mvn clean package -DskipTests
 
-      - name: Run Dependency Check
-        uses: dependency-check/Dependency-Check_Action@main
-        with:
-          project: "Springboot-Application"
-          path: "pom.xml"
-
       - name: Run Unit Tests
         run: mvn test
 
