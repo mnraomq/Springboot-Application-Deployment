@@ -1,0 +1,2 @@
+testing for sqaush merge on newfile 1
+
