@@ -40,16 +40,18 @@ pipeline {
         stage("docker image creation with artifact file") {
             steps {
                 sh 'docker build -t mnraomq/springboot-application .'
-                withCredentials(credentialsId: '', variable: '') {
-                sh 'docker login -u mnraomq -p (password)'
-                sh 'docker push mnraomq/springboot-appilication'
+                withCredentials(credentialsId: ' ', variable: ' ') {
+                    sh "docker login -u mnraomq -p (password)"
+                    sh 'docker push mnraomq/springboot-appilication'
+                }
             }
         }
         stage("deploy to kubernetes") {
             steps {
-                withCredentials(credentialsId: '', variable: '') {
-                sh 'kubectl apply -f deployment.yml'
-                sh 'kubectl apply -f service.yml'
+                withCredentials(credentialsId: ' ', variable: ' ') {
+                    sh 'kubectl apply -f deployment.yml'
+                    sh 'kubectl apply -f service.yml'
+                }
             }
         }
     }
