@@ -9,7 +9,7 @@
         <relativePath/> </parent>
     <groupId>com.springbootapp</groupId>
     <artifactId>Springboot-Application</artifactId>
-    <version>v2.0.0-19-g2be6c38</version>
+    <version>v2.0.0-21-gdd22417</version>
     <name>Springboot-Application</name>
     <description>Spring Boot application for CI/CD pipeline and deployment</description>
     <url/>
