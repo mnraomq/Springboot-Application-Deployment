@@ -37,7 +37,7 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-        stage("docker image creation with artifact") {
+        stage("docker image creation with artifact file") {
             steps {
                 sh 'docker build -t mnraomq/springboot-application .'
                 withCredentials(credentialsId: '', variable: '') {
