@@ -47,7 +47,3 @@ Steps for creating feature branch and merge into main:
 
 ---------------------------------------------------------------------------------------------------------
 
-
-This is a newly update on Readme file.
-
-
