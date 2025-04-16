@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'
         jdk 'jdk17'
+        maven 'Maven3'
     }
 
     environment {
@@ -12,9 +12,12 @@ pipeline {
     }
 
     stages {
-        stage("Print echo message") {
+        stage("Print echo messages") {
             steps {
                 echo "Hello, This is my Jenkins pipeline"
+                echo "JAVA_HOME = ${env.JAVA_HOME}"
+                sh 'java -version'
+                sh 'mvn -version'
             }
         }
 
