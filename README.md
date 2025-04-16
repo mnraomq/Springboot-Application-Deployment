@@ -43,10 +43,8 @@ Steps for creating feature branch and merge into main:
 6.Once merged, again pull the main branch into local for upto date.
 
 
-validating webhook issue
-
-
 7.Now can delete the feature branch if needed to maintain upto date branches (git branch -d <feature branch name>)
 
 ---------------------------------------------------------------------------------------------------------
 
+validating webhook issue
