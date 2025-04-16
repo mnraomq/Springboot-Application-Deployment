@@ -10,7 +10,6 @@ pipeline {
         stage("Print echo messages") {
             steps {
                 echo "Hello, This is my Jenkins pipeline"
-                echo "JAVA_HOME = ${env.JAVA_HOME}"
                 sh 'java -version'
                 sh 'mvn -version'
             }
