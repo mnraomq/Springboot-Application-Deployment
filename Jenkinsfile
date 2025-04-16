@@ -8,7 +8,8 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-
+        JAVA_HOME = "${tool 'jdk17'}"
+        PATH = "${tool 'jdk17'}/bin:${env.PATH}"
     }
 
     stages {
