@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-        KUBE_CONFIG = credentials('kubeconfig-creds')
+
     }
 
     stages {
@@ -60,15 +60,6 @@ pipeline {
                     sh 'docker build -t mnraomq/springboot-application .'
                     sh 'docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p '
                     sh 'docker push mnraomq/springboot-application'
-                }
-            }
-        }
-
-        stage("deploy to kubernetes") {
-            steps {
-                withCredentials([file(credentialsId: 'kubeconfig-creds', variable: 'KUBECONFIG')]) {
-                    sh 'kubectl apply -f deployment.yml'
-                    sh 'kubectl apply -f service.yml'
                 }
             }
         }
