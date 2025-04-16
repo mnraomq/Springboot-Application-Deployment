@@ -64,10 +64,12 @@ pipeline {
             }
         }
 
-        stage("Deploy to Kubernetes") {
+        stage("deploy to kubernetes") {
             steps {
-                sh 'kubectl apply -f deployment.yml'
-                sh 'kubectl apply -f service.yml'
+                withCredentials([file(credentialsId: 'kubeconfig-creds', variable: 'KUBECONFIG')]) {
+                    sh 'kubectl apply -f deployment.yml'
+                    sh 'kubectl apply -f service.yml'
+                }
             }
         }
     }
