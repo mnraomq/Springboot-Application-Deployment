@@ -6,12 +6,6 @@ pipeline {
         maven 'Maven3'
     }
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-        JAVA_HOME = "${tool 'jdk17'}"
-        PATH = "${tool 'jdk17'}/bin:${env.PATH}"
-    }
-
     stages {
         stage("Print echo messages") {
             steps {
