@@ -57,15 +57,5 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-
-        stage("Docker Build and Push") {
-            steps {
-                script {
-                    sh 'docker build -t mnraomq/springboot-application .'
-                    sh 'docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p '
-                    sh 'docker push mnraomq/springboot-application'
-                }
-            }
-        }
     }
 }
