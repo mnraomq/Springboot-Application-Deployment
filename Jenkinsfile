@@ -1,61 +1,73 @@
 pipeline {
     agent any
 
+<<<<<<< Updated upstream
     triggers {
         githubPush()
+=======
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+        KUBE_CONFIG = credentials('kubeconfig-creds')
+>>>>>>> Stashed changes
     }
 
     stages {
         stage("Print echo message") {
             steps {
-                echo "Hello, This is my jenkins pipeline"
+                echo "Hello, This is my Jenkins pipeline"
             }
         }
-        stage("github checkout") {
+
+        stage("GitHub Checkout") {
             steps {
                 git branch: 'main', credentialsId: 'github-jenkins', url: 'https://github.com/mnraomq/Springboot-Application-Deployment.git'
             }
         }
-        stage("maven compile") {
+
+        stage("Maven Compile") {
             steps {
                 sh 'mvn clean compile'
             }
         }
-        stage("maven run unit tests") {
+
+        stage("Maven Unit Tests") {
             steps {
-                sh 'mvn clean test'
+                sh 'mvn test'
             }
         }
-        stage("maven integration tests") {
+
+        stage("Maven Integration Tests") {
             steps {
-                sh 'mvn verify -e intergation-tests'
+                sh 'mvn verify -P integration-tests'
             }
         }
-        stage("maven end to end tests") {
+
+        stage("Maven E2E Tests") {
             steps {
-                sh 'mvn verify -e end-to-end-tests'
+                sh 'mvn verify -P e2e-tests'
             }
         }
-        stage("maven build with compiled code") {
+
+        stage("Maven Build") {
             steps {
                 sh 'mvn clean install'
             }
         }
-        stage("docker image creation with artifact file") {
+
+        stage("Docker Build and Push") {
             steps {
-                sh 'docker build -t mnraomq/springboot-application .'
-                withCredentials(credentialsId: ' ', variable: ' ') {
-                    sh "docker login -u mnraomq -p (password)"
-                    sh 'docker push mnraomq/springboot-appilication'
+                script {
+                    sh 'docker build -t mnraomq/springboot-application .'
+                    sh 'docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p '
+                    sh 'docker push mnraomq/springboot-application'
                 }
             }
         }
-        stage("deploy to kubernetes") {
+
+        stage("Deploy to Kubernetes") {
             steps {
-                withCredentials(credentialsId: ' ', variable: ' ') {
-                    sh 'kubectl apply -f deployment.yml'
-                    sh 'kubectl apply -f service.yml'
-                }
+                sh 'kubectl apply -f deployment.yml'
+                sh 'kubectl apply -f service.yml'
             }
         }
     }
