@@ -1,14 +1,9 @@
 pipeline {
     agent any
 
-<<<<<<< Updated upstream
-    triggers {
-        githubPush()
-=======
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
         KUBE_CONFIG = credentials('kubeconfig-creds')
->>>>>>> Stashed changes
     }
 
     stages {
