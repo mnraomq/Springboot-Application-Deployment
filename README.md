@@ -47,4 +47,5 @@ Steps for creating feature branch and merge into main:
 
 ---------------------------------------------------------------------------------------------------------
 
-validating webhook triggering
+validating webhook triggering process
+
