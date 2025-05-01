@@ -14,6 +14,14 @@ pipeline {
             }
         }
 
+        stage('Verify Maven') {
+            steps {
+                sh 'echo $PATH'
+                sh 'which mvn'
+                sh 'mvn --version'
+            }
+        }
+
         stage('Maven Compile') {
             steps {
                 sh 'mvn clean compile'
