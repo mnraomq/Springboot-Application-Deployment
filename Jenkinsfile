@@ -1,49 +1,56 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'jdk17'
-        maven 'maven3'
+    environment {
+        PATH = "/opt/homebrew/bin:$PATH"
     }
 
     stages {
-        stage("Print echo messages") {
+        stage('Print echo messages') {
             steps {
-                echo "Hello, This is my Jenkins pipeline"
+                echo 'Hello, This is my Jenkins pipeline'
             }
         }
 
-        stage("GitHub Checkout") {
+        stage('GitHub Checkout') {
             steps {
                 git branch: 'main', credentialsId: 'github-jenkins', url: 'https://github.com/mnraomq/Springboot-Application-Deployment.git'
             }
         }
 
-        stage("Maven Compile") {
+        stage('Verify Maven') {
+            steps {
+                sh 'echo $PATH'
+                sh 'which mvn'
+                sh 'mvn --version'
+            }
+        }
+
+        stage('Maven Compile') {
             steps {
                 sh 'mvn clean compile'
             }
         }
 
-        stage("Maven Unit Tests") {
+        stage('Maven Unit Tests') {
             steps {
                 sh 'mvn test'
             }
         }
 
-        stage("Maven Integration Tests") {
+        stage('Maven Integration Tests') {
             steps {
                 sh 'mvn verify -P integration-tests'
             }
         }
 
-        stage("Maven E2E Tests") {
+        stage('Maven E2E Tests') {
             steps {
                 sh 'mvn verify -P e2e-tests'
             }
         }
 
-        stage("Maven Build") {
+        stage('Maven Build') {
             steps {
                 sh 'mvn clean install'
             }
