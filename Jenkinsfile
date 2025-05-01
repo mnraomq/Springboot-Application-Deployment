@@ -8,17 +8,17 @@ pipeline {
     stages {
         stage('Print echo messages') {
             steps {
-                echo 'Hello, This is my Jenkins pipeline'
+                echo "Running pipeline for branch: ${env.BRANCH_NAME}"
             }
         }
 
         stage('GitHub Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'github-jenkins', url: 'https://github.com/mnraomq/Springboot-Application-Deployment.git'
+                git branch: "${env.BRANCH_NAME}", credentialsId: 'github-jenkins', url: 'https://github.com/mnraomq/Springboot-Application-Deployment.git'
             }
         }
 
-        stage('Verify Maven') {
+        stage('Verify Maven path and version') {
             steps {
                 sh 'echo $PATH'
                 sh 'which mvn'
@@ -39,12 +39,28 @@ pipeline {
         }
 
         stage('Maven Integration Tests') {
+            when {
+                anyOf {
+                    branch 'feature*'
+                    branch 'develop'
+                    branch 'release'
+                    branch 'hotfix'
+                    branch 'main'
+                }
+            }
             steps {
                 sh 'mvn verify -P integration-tests'
             }
         }
 
         stage('Maven E2E Tests') {
+            when {
+                anyOf {
+                    branch 'release'
+                    branch 'hotfix'
+                    branch 'main'
+                }
+            }
             steps {
                 sh 'mvn verify -P e2e-tests'
             }
@@ -53,6 +69,33 @@ pipeline {
         stage('Maven Build') {
             steps {
                 sh 'mvn clean install'
+            }
+        }
+
+        stage('Deploy to Development') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                echo "Deployed my springboot application to Development environment successfully"
+            }
+        }
+
+        stage('Deploy to Staging') {
+            when {
+                branch 'release'
+            }
+            steps {
+                echo "Deployed my springboot application to Staging environment successfully"
+            }
+        }
+
+        stage('Deploy to Production') {
+            when {
+                branch 'main'
+            }
+            steps {
+                echo "Deployed my springboot application to Production environment successfully"
             }
         }
     }
