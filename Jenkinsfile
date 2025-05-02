@@ -41,7 +41,7 @@ pipeline {
         stage('Maven Integration Tests') {
             when {
                 anyOf {
-                    branch 'feature.*'
+                    branch 'feature*'
                     branch 'develop'
                     branch 'release'
                     branch 'hotfix'
@@ -75,7 +75,7 @@ pipeline {
         stage('SonarQube Analysis') {
             when {
                 anyOf {
-                    branch 'feature.*'
+                    branch 'feature*'
                     branch 'develop'
                     branch 'release'
                     branch 'hotfix'
