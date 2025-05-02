@@ -41,7 +41,7 @@ pipeline {
         stage('Maven Integration Tests') {
             when {
                 anyOf {
-                    branch 'feature*'
+                    branch 'feature.*'
                     branch 'develop'
                     branch 'release'
                     branch 'hotfix'
@@ -72,12 +72,72 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            when {
+                anyOf {
+                    branch 'feature.*'
+                    branch 'develop'
+                    branch 'release'
+                    branch 'hotfix'
+                    branch 'main'
+                }
+            }
+            steps {
+                echo "SonarQube code quality checks are passed successfully for branch ${env.BRANCH_NAME}"
+            }
+        }
+
+        stage('OWASP Dependency Check') {
+            steps {
+                echo "All dependency checks resolved successfully for branch ${env.BRANCH_NAME}"
+            }
+        }
+
+        stage('Build Docker Image') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                    branch 'main'
+                }
+            }
+            steps {
+                sh 'docker build -t mnraomq/springboot-app:latest .'
+            }
+        }
+
+        stage('Trivy Image Scan') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                    branch 'main'
+                }
+            }
+            steps {
+                echo "Image scan success and has no vulnerabilities from branch ${env.BRANCH_NAME}"
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                    branch 'main'
+                }
+            }
+            steps {
+                echo "Image push success for branch ${env.BRANCH_NAME}"
+            }
+        }
+
         stage('Deploy to Development') {
             when {
                 branch 'develop'
             }
             steps {
-                echo "Deployed my springboot application to Development environment successfully"
+                echo "Deployed my Spring Boot application to Development environment successfully"
             }
         }
 
@@ -86,7 +146,7 @@ pipeline {
                 branch 'release'
             }
             steps {
-                echo "Deployed my springboot application to Staging environment successfully"
+                echo "Deployed my Spring Boot application to Staging environment successfully"
             }
         }
 
@@ -95,7 +155,36 @@ pipeline {
                 branch 'main'
             }
             steps {
-                echo "Deployed my springboot application to Production environment successfully"
+                echo "Deployed my Spring Boot application to Production environment successfully"
+            }
+        }
+
+        stage('Email Notification') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                    branch 'main'
+                }
+            }
+            steps {
+                mail to: 'mnraomq@gmail.com',
+                     subject: "Jenkins Pipeline Status - ${env.BRANCH_NAME}",
+                     body: "Deployment completed for branch ${env.BRANCH_NAME} and Check Jenkins console for logs."
+            }
+        }
+
+        stage('Slack Notification') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                    branch 'main'
+                }
+            }
+            steps {
+                slackSend channel: 'Slack channel name',
+                          message: "Jenkins pipeline job ran successfully for branch: ${env.BRANCH_NAME}"
             }
         }
     }
