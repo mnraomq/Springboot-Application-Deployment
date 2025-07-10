@@ -158,25 +158,25 @@ pipeline {
                 echo "Deployed my Spring Boot application to Production environment successfully"
             }
         }
+    }
 
     post {
-            success {
-                mail to: 'nageshgpt999@gmail.com',
-                    subject: "Success: Jenkins Job for branch ${env.JOB_NAME} with build number ${env.BUILD_NUMBER}",
-                    body: "Jenkins job succeeded for branch ${env.BRANCH_NAME}. Check the logs at: ${env.BUILD_URL}"
+        success {
+            mail to: 'nageshgpt999@gmail.com',
+                subject: "Success: Jenkins Job for branch ${env.JOB_NAME} with build number ${env.BUILD_NUMBER}",
+                body: "Jenkins job succeeded for branch ${env.BRANCH_NAME}. Check the logs at: ${env.BUILD_URL}"
 
-                slackSend channel: 'C0959JD6V7U',
-                        message: "Success: Jenkins job for branch ${env.BRANCH_NAME} completed successfully. See logs at ${env.BUILD_URL}"
-            }
+            slackSend channel: 'C0959JD6V7U',
+                    message: "Success: Jenkins job for branch ${env.BRANCH_NAME} completed successfully. See logs at ${env.BUILD_URL}"
+        }
 
-            failure {
-                mail to: 'nageshgpt999@gmail.com',
-                    subject: "Failure: Jenkins Job for branch ${env.JOB_NAME} with build number ${env.BUILD_NUMBER}",
-                    body: "Jenkins job failed for branch ${env.BRANCH_NAME}. See logs at ${env.BUILD_URL}"
+        failure {
+            mail to: 'nageshgpt999@gmail.com',
+                subject: "Failure: Jenkins Job for branch ${env.JOB_NAME} with build number ${env.BUILD_NUMBER}",
+                body: "Jenkins job failed for branch ${env.BRANCH_NAME}. See logs at ${env.BUILD_URL}"
 
-                slackSend channel: 'C0959JD6V7U',
-                        message: "Failure: Jenkins job for branch ${env.BRANCH_NAME} failed. Check console output. See logs at ${env.BUILD_URL}"
-            }
+            slackSend channel: 'C0959JD6V7U',
+                    message: "Failure: Jenkins job for branch ${env.BRANCH_NAME} failed. Check console output. See logs at ${env.BUILD_URL}"
         }
     }
 }
