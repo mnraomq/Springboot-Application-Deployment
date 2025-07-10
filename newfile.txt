@@ -1,3 +1,0 @@
-hello this is a new file content
-hello this second time modify
-test for squash merge
