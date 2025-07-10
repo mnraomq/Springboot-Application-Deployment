@@ -159,7 +159,7 @@ pipeline {
             }
         }
 
-        post {
+    post {
             success {
                 mail to: 'nageshgpt999@gmail.com',
                     subject: "Success: Jenkins Job for branch ${env.JOB_NAME} with build number ${env.BUILD_NUMBER}",
