@@ -169,7 +169,7 @@ pipeline {
             }
             steps {
                 script {
-                    mail to: 'mnraomq@gmail.com',
+                    mail to: 'nageshgpt999@gmail.com',
                         subject: "Jenkins Pipeline Status for branch ${env.BRANCH_NAME}",
                         body: "Deployment completed for branch ${env.BRANCH_NAME} and Check Jenkins console for logs."
                 }
