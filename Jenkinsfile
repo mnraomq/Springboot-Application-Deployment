@@ -159,32 +159,23 @@ pipeline {
             }
         }
 
-        stage('Email Notification') {
-            when {
-                anyOf {
-                    branch 'develop'
-                    branch 'release'
-                    branch 'main'
-                }
-            }
-            steps {
-                mail to: 'mnraomq@gmail.com',
-                     subject: "Jenkins Pipeline Status fro branch ${env.BRANCH_NAME}",
-                     body: "Deployment completed for branch ${env.BRANCH_NAME} and Check Jenkins console for logs."
-            }
-        }
+        post {
+            success {
+                mail to: 'nageshgpt999@gmail.com',
+                    subject: "Success: Jenkins Job for branch ${env.JOB_NAME} with build number ${env.BUILD_NUMBER}",
+                    body: "Jenkins job succeeded for branch ${env.BRANCH_NAME}. Check the logs at: ${env.BUILD_URL}"
 
-        stage('Slack Notification') {
-            when {
-                anyOf {
-                    branch 'develop'
-                    branch 'release'
-                    branch 'main'
-                }
+                slackSend channel: 'C0959JD6V7U',
+                        message: "Success: Jenkins job for branch ${env.BRANCH_NAME} completed successfully. See logs at ${env.BUILD_URL}"
             }
-            steps {
-                slackSend channel: 'Slack channel name',
-                          message: "Jenkins pipeline job ran successfully for branch: ${env.BRANCH_NAME}"
+
+            failure {
+                mail to: 'nageshgpt999@gmail.com',
+                    subject: "Failure: Jenkins Job for branch ${env.JOB_NAME} with build number ${env.BUILD_NUMBER}",
+                    body: "Jenkins job failed for branch ${env.BRANCH_NAME}. See logs at ${env.BUILD_URL}"
+
+                slackSend channel: 'C0959JD6V7U',
+                        message: "Failure: Jenkins job for branch ${env.BRANCH_NAME} failed. Check console output. See logs at ${env.BUILD_URL}"
             }
         }
     }
